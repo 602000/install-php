@@ -1,0 +1,6 @@
+.idea
+.vscode
+php*
+php*.*
+cache/*
+!.gitkeep
