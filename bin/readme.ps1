@@ -6,7 +6,10 @@
 # # 2.执行脚本
 # bin/install
 
-Write-Host "用下载工具下载下列两组文件到cache目录，然后执行脚本：bin/install"
+$childPath = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$currentPath = Split-Path -Parent $childPath
+
+Write-Host "用下载工具下载下列两组文件到 $currentPath\cache 目录，然后执行脚本：bin/install"
 Write-Host ""
 Write-Host "DownloadUrl"
 Write-Host "-----------"

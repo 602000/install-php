@@ -14,7 +14,7 @@ $Version = "N/A"
 
 $Scope = "CurrentUser"
 
-$Scope2 = "User"
+# $Scope2 = "User"
 
 $Versions = @("5.6", "7.0", "7.1", "7.2", "7.3", "7.4")
 
@@ -26,11 +26,13 @@ $PhpPath = Join-Path $ParentPath "php"
 $CachePath = Join-Path $ParentPath "cache"
 
 If ($args.count -Eq 0) {
-    $args = $Versions
+    $myArgs = $Versions
+} Else {
+    $myArgs = $args
 }
 
-Foreach ($Version In $args) {
-    If ($Version -Eq $args[0]) {
+Foreach ($Version In $myArgs) {
+    If ($Version -Eq $myArgs[0]) {
         If (-Not (Get-Module -Name PhpManager)) {
             Write-Host "Install Php Manager"
             Install-Module -Name PhpManager -Scope $Scope -Force
@@ -53,7 +55,7 @@ Foreach ($Version In $args) {
         Initialize-PhpSwitcher -Alias $PhpPath -Scope $Scope -Force
     }
     
-    If ($Version -Eq $args[-1]) {
+    If ($Version -Eq $myArgs[-1]) {
         $IsLast = $True
     } Else {
         $IsLast = $False 
@@ -82,10 +84,10 @@ Foreach ($Version In $args) {
         Install-PhpExtension -Extension xdebug -Path $Path
     }
 
-    If ($Version -ge "7.0") {
-        # Write-Host "Install imagick"
-        # Install-PhpExtension -Extension imagick -Path $Path
-    }
+    # If ($Version -ge "7.0") {
+    #     Write-Host "Install imagick"
+    #     Install-PhpExtension -Extension imagick -Path $Path
+    # }
 
     Foreach ($Extension In $Extensions) {
         If ($Version -le "7.1" -and $Extension -eq "sodium") {
