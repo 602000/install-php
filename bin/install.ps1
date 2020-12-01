@@ -16,7 +16,7 @@ $Scope = "CurrentUser"
 
 # $Scope2 = "User"
 
-$Versions = @("5.6", "7.0", "7.1", "7.2", "7.3", "7.4")
+$Versions = @("5.6", "7.0", "7.1", "7.2", "7.3", "7.4", "8.0")
 
 $Extensions = @("bz2", "curl", "fileinfo", "gd", "gettext", "gmp", "intl", "imap", "ldap", "mbstring", "exif", "mysqli", "odbc", "openssl", "pdo_mysql", "pdo_odbc", "pdo_pgsql", "pdo_sqlite", "pgsql", "shmop", "soap", "sockets", "sodium", "sqlite3", "tidy", "xmlrpc", "xsl")
 
@@ -79,7 +79,7 @@ Foreach ($Version In $myArgs) {
         Enable-PhpExtension -Extension opcache -Path $Path
     }
 
-    If ($Version -ge "7.0") {
+    If ($Version -ge "7.0" -and $Version -ne "8.0") {
         Write-Host "Install xdebug"
         Install-PhpExtension -Extension xdebug -Path $Path
     }
@@ -91,6 +91,10 @@ Foreach ($Version In $myArgs) {
 
     Foreach ($Extension In $Extensions) {
         If ($Version -le "7.1" -and $Extension -eq "sodium") {
+            Continue
+        }
+
+        If ($Version -ge "8.0" -and $Extension -eq "xmlrpc") {
             Continue
         }
 
